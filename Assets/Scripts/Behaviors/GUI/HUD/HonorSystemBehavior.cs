@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 [AddComponentMenu("Tactibru/GUI/Honor System")]
-public class HonorSystemBehavior : MonoBehaviour
+public class HonorSystemBehavior : EditorWindow
 {
     public int playerHonorTotal;
+    public int maxPlayerHonor;
     public int computerHonorTotal;
+    public int maxComputerHonor;
     public int pSquadDeathValue; //value used by designer on player squad death
     public int cSquadDeathValue; // value used by designer on computer squad death
     public bool usingGameController;
@@ -25,8 +28,14 @@ public class HonorSystemBehavior : MonoBehaviour
         playerSquadTotal = 10;
         computerSquadTotal = 10;
         StartingHonor();
-    }
 
+        if (maxPlayerHonor == 0)
+            maxPlayerHonor = 100;
+        if (maxComputerHonor == 0)
+            maxComputerHonor = 100;
+            
+    }
+    
     void OnGUI()
     {
         BaseHonor();
@@ -44,6 +53,12 @@ public class HonorSystemBehavior : MonoBehaviour
             else
             {
                 GUI.Box(new Rect(Screen.width * 0.75f, Screen.height * 0.05f, 190, 100), ("Player Honor Total: " + playerHonorTotal + "\n" + "Computer Honor Total: " + computerHonorTotal), style);
+                EditorGUI.ProgressBar(new Rect(Screen.width * 0.625f, Screen.height * 0.06f, 150, 40), (playerHonorTotal / 100.0f) / (maxPlayerHonor / 100.0f), "Player Honor" + "\n \n" + playerHonorTotal);
+                EditorGUI.ProgressBar(new Rect(Screen.width * 0.625f, Screen.height * 0.12f, 150, 40), (computerHonorTotal / 100.0f) / (maxComputerHonor / 100.0f), "Enemy Honor" + "\n \n" + computerHonorTotal);
+
+                //Third option using drawtexture with
+                //foreground and background images
+
             }
         }
 
